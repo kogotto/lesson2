@@ -139,3 +139,40 @@ function failedCalculation() {
     alert('Не удалось построить маршрут. Проверьте адреса и выбранные параметры.');
     submitButton.disabled = true;
 }
+
+// Отправка заявки (демо без реального бэкенда).
+submitButton.addEventListener('click', async () => {
+    // Без расчета заявку отправлять нельзя.
+    if (!calculation) {
+        alert('Сначала рассчитайте стоимость, чтобы оформить заявку.');
+        return;
+    }
+
+    // Считываем данные клиента.
+    const name = nameInput.value.trim();
+    const phone = phoneInput.value.trim();
+    const comment = commentInput.value.trim();
+
+    // Простая валидация.
+    if (!name) {
+        alert('Введите имя');
+        return;
+    }
+    if (!phone) {
+        alert('Введите корректный телефон (минимум 10 цифр)');
+        return;
+    }
+
+    // Формируем демо-payload и имитируем отправку.
+    const payload = {
+        id: Math.floor(Math.random() * (100000 - 10000 + 1)) + 10000,
+        customer: {name, phone, comment},
+        createdAt: new Date().toISOString()
+    };
+    console.log('Заказ: ' + payload.id, payload);
+    orderId.textContent = payload.id;
+
+    // Переключаем UI на экран успеха.
+    orderForm.style.display = 'none';
+    orderSuccess.classList.add('is-visible');
+});
